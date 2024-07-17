@@ -1,11 +1,17 @@
 import time
 import csv
+import os
 
 class Timer:
     def __init__(self):
         self.start_time = None
         self.elapsed_time = 0
         self.running = False
+        self.project_name = self.get_project_name()
+
+    def get_project_name(self):
+        project_name = input("Enter the project name: ").strip()
+        return project_name.replace(" ", "_") + ".csv"
 
     def start(self):
         if not self.running:
@@ -34,12 +40,14 @@ class Timer:
             print("Timer resumed.")
 
     def write_to_csv(self):
-        # REPLACE hours.csv with name of csv file you want to log hours in
-        file_path = 'hours.csv'
+        file_path = self.project_name
         formatted_time = self.format_time(self.elapsed_time)
+        file_exists = os.path.isfile(file_path)
         try:
             with open(file_path, mode='a', newline='') as file:
                 writer = csv.writer(file)
+                if not file_exists:
+                    writer.writerow(["Timestamp", "Elapsed Time"])
                 writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()), formatted_time])
             print(f"Elapsed time written to {file_path}.")
         except Exception as e:
@@ -49,7 +57,7 @@ class Timer:
         hours, remainder = divmod(seconds, 3600)
         minutes, seconds = divmod(remainder, 60)
         return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
-    
+
     def reset(self):
         self.start_time = None
         self.elapsed_time = 0

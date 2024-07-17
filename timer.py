@@ -24,7 +24,8 @@ class Timer:
             self.elapsed_time += time.time() - self.start_time
             self.running = False
             print(f"Timer stopped. Total elapsed time: {self.elapsed_time:.2f} seconds.")
-            self.write_to_csv()
+            tasks_completed = input("Enter the tasks completed during this period: ").strip()
+            self.write_to_csv(tasks_completed)
             self.reset()
 
     def pause(self):
@@ -39,7 +40,7 @@ class Timer:
             self.running = True
             print("Timer resumed.")
 
-    def write_to_csv(self):
+    def write_to_csv(self, tasks_completed):
         file_path = self.project_name
         formatted_time = self.format_time(self.elapsed_time)
         file_exists = os.path.isfile(file_path)
@@ -47,9 +48,10 @@ class Timer:
             with open(file_path, mode='a', newline='') as file:
                 writer = csv.writer(file)
                 if not file_exists:
-                    writer.writerow(["Timestamp", "Elapsed Time"])
-                writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()), formatted_time])
-            print(f"Elapsed time written to {file_path}.")
+                    writer.writerow(["Date", "Duration", "Task"])
+                    file.write("\n")  # Write a new line after the header
+                writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()), formatted_time, tasks_completed])
+            print(f"Elapsed time and tasks written to {file_path}.")
         except Exception as e:
             print(f"Failed to write to {file_path}: {e}")
 

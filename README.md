@@ -13,7 +13,7 @@ To use:
 9. Type `resume` to resume the timer.
 10. Type `stop ` to stop the timer.
 11. When the timer is stopped you will be prompted to enter the tasks completed during this period.
-12. After you've entered the tasks: what you typed, the date and amount of time elapsed is added to `yourProjectName.csv`.
+12. After you've entered the tasks: what you typed, the date, and amount of time elapsed is added to `yourProjectName.csv`.
 13. Type `exit` to exit the process, stop the timer, and add the date and amount of time elapsed to `hours.csv`.
 
 If you choose to rename the csv file you will need to change the file-path name in the python file.
